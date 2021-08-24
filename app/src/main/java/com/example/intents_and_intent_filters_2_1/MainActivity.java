@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-    static final String EXTRA_GIGAWATTS = "com.example.EXTRA_GIGAWATTS";
     Button button;
 
     @Override
@@ -19,12 +18,20 @@ public class MainActivity extends AppCompatActivity {
 
         button = findViewById(R.id.button);
         button.setOnClickListener(view -> {
-            String fileUrl = "https://www.publicdomainpictures.net/pictures/320000/velka/background-image.png";
-// Executed in an Activity, so 'this' is the Context
-// The fileUrl is a string URL, such as "http://www.example.com/image.png"
-            Intent downloadIntent = new Intent(this, DownloadService.class);
-            downloadIntent.setData(Uri.parse(fileUrl));
-            startService(downloadIntent);
+
+            String textMessage ="Hello world!";
+            // Create the text message with a string.
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, textMessage);
+            sendIntent.setType("text/plain");
+
+             // Try to invoke the intent.
+            try {
+                startActivity(sendIntent);
+            } catch (ActivityNotFoundException e) {
+                // Define what your app should do if no activity can handle the intent.
+            }
 
         });
     }
