@@ -19,18 +19,19 @@ public class MainActivity extends AppCompatActivity {
         button = findViewById(R.id.button);
         button.setOnClickListener(view -> {
 
-            String textMessage ="Hello world!";
-            // Create the text message with a string.
-            Intent sendIntent = new Intent();
-            sendIntent.setAction(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_TEXT, textMessage);
-            sendIntent.setType("text/plain");
 
-             // Try to invoke the intent.
-            try {
-                startActivity(sendIntent);
-            } catch (ActivityNotFoundException e) {
-                // Define what your app should do if no activity can handle the intent.
+            Intent sendIntent = new Intent(Intent.ACTION_SEND);
+            sendIntent.setType("text/plain");
+            //-----code -------//
+            // Always use string resources for UI text.
+            // This says something like "Share this photo with"
+            String title = getResources().getString(R.string.app_name);
+            // Create intent to show the chooser dialog
+            Intent chooser = Intent.createChooser(sendIntent, title);
+
+            // Verify the original intent will resolve to at least one activity
+            if (sendIntent.resolveActivity(getPackageManager()) != null) {
+                startActivity(chooser);
             }
 
         });
