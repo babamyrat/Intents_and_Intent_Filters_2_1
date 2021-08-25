@@ -6,6 +6,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.AlarmClock;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,22 +19,18 @@ public class MainActivity extends AppCompatActivity {
 
         button = findViewById(R.id.button);
         button.setOnClickListener(view -> {
-
-
-            Intent sendIntent = new Intent(Intent.ACTION_SEND);
-            sendIntent.setType("text/plain");
-            //-----code -------//
-            // Always use string resources for UI text.
-            // This says something like "Share this photo with"
-            String title = getResources().getString(R.string.app_name);
-            // Create intent to show the chooser dialog
-            Intent chooser = Intent.createChooser(sendIntent, title);
-
-            // Verify the original intent will resolve to at least one activity
-            if (sendIntent.resolveActivity(getPackageManager()) != null) {
-                startActivity(chooser);
-            }
-
+            createAlarm("hello world!", 1, 1);
         });
     }
+
+    public void createAlarm(String message, int hour, int minutes) {
+        Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM)
+                .putExtra(AlarmClock.EXTRA_MESSAGE, message)
+                .putExtra(AlarmClock.EXTRA_HOUR, hour)
+                .putExtra(AlarmClock.EXTRA_MINUTES, minutes);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
 }
